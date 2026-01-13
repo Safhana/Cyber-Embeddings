@@ -10,7 +10,7 @@ This project implements **CBOW** and **Skip-gram** architectures to create 10-di
 4. **Optimization:** Tested three learning rates (0.01, 0.001, 0.0001) using the **Adam Optimizer**.
 5. **Evaluation:** Used **Cosine Similarity** to measure the mathematical distance between word vectors to find similar terms.
 
-### 📈 Results
+###  Results
 The best performance was achieved with a **Learning Rate of 0.01**, where the loss converged from **3.81 to 0.77** within 100 epochs.
 
 
