@@ -1,13 +1,8 @@
-# =========================================
-# train_skipgram.py
-# =========================================
 
 import tensorflow as tf
 import numpy as np
 
-# -------------------------------
-# STEP 1: Load Vocabulary
-# -------------------------------
+
 vocab = {}
 id_to_word = {}
 
@@ -21,22 +16,18 @@ with open("vocab.txt", "r") as f:
 vocab_size = len(vocab)
 print("Vocabulary size:", vocab_size)
 
-# -------------------------------
-# STEP 2: Load Skip-gram Dataset
-# -------------------------------
+
 targets = []
 contexts = []
 
 with open("skipgram_dataset.csv", "r") as f:
-    next(f)  # skip header
+    next(f)  
     for line in f:
         target_id, context_id = line.strip().split(",")
         targets.append(int(target_id))
         contexts.append(int(context_id))
 
-# -------------------------------
-# STEP 3: One-Hot Encoding
-# -------------------------------
+
 def one_hot(index, size):
     vec = np.zeros(size)
     vec[index] = 1
@@ -48,9 +39,7 @@ y = np.array([one_hot(c, vocab_size) for c in contexts])
 print("Input shape:", X.shape)
 print("Output shape:", y.shape)
 
-# -------------------------------
-# STEP 4: Train with Learning Rates
-# -------------------------------
+
 learning_rates = [0.01, 0.001, 0.0001]
 epochs = 100
 embedding_dim = 10
@@ -77,9 +66,7 @@ for lr in learning_rates:
 
     history = model.fit(X, y, epochs=epochs, verbose=0)
 
-    # -------------------------------
-    # STEP 5: Save Loss
-    # -------------------------------
+    
     loss_file = f"loss_skipgram_lr_{lr}.txt"
     with open(loss_file, "w") as f:
         f.write("epoch,loss\n")
@@ -88,9 +75,7 @@ for lr in learning_rates:
 
     print(f"Saved loss to {loss_file}")
 
-    # -------------------------------
-    # STEP 6: Save Embeddings (best LR)
-    # -------------------------------
+    
     if lr == 0.001:
         embedding_weights = model.layers[0].get_weights()[0]
 
