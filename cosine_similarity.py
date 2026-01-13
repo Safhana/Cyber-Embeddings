@@ -1,13 +1,7 @@
-# ======================================
-# cosine_similarity.py
-# ======================================
 
 import numpy as np
 import math
 
-# -------------------------------
-# STEP 1: Load Vocabulary
-# -------------------------------
 id_to_word = {}
 
 with open("vocab.txt", "r") as f:
@@ -15,33 +9,24 @@ with open("vocab.txt", "r") as f:
         word, idx, freq = line.strip().split(",")
         id_to_word[int(idx)] = word
 
-# -------------------------------
-# STEP 2: Load Embeddings
-# Change file if needed:
-# embeddings_cbow.csv OR embeddings_skipgram.csv
-# -------------------------------
 embeddings = {}
 
-with open("embeddings_cbow.csv", "r") as f:   # <-- change to embeddings_skipgram.csv if required
-    next(f)  # skip header
+with open("embeddings_cbow.csv", "r") as f:  
+    next(f)  
     for line in f:
         parts = line.strip().split(",")
         word_id = int(parts[0])
         vector = np.array(list(map(float, parts[1:])))
         embeddings[word_id] = vector
 
-# -------------------------------
-# STEP 3: Cosine Similarity Function
-# -------------------------------
+
 def cosine_similarity(v1, v2):
     dot = np.dot(v1, v2)
     norm1 = math.sqrt(np.dot(v1, v1))
     norm2 = math.sqrt(np.dot(v2, v2))
     return dot / (norm1 * norm2 + 1e-8)
 
-# -------------------------------
-# STEP 4: Top-K Similar Words
-# -------------------------------
+
 def get_top_k(word, k=5):
     query_id = None
     for idx, w in id_to_word.items():
@@ -63,9 +48,6 @@ def get_top_k(word, k=5):
     similarities.sort(key=lambda x: x[1], reverse=True)
     return similarities[:k]
 
-# -------------------------------
-# STEP 5: Query Words (Cybersecurity)
-# -------------------------------
 query_words = [
     "login",
     "malware",
@@ -74,9 +56,7 @@ query_words = [
     "access"
 ]
 
-# -------------------------------
-# STEP 6: Save Results
-# -------------------------------
+
 with open("similarity_results.txt", "w") as f:
     for word in query_words:
         f.write(f"Query word: {word}\n")
