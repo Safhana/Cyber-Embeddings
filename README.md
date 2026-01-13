@@ -2,8 +2,7 @@
 
 This project implements **CBOW** and **Skip-gram** architectures to create 10-dimensional word embeddings using a specialized Cybersecurity corpus.
 
-### 📖 Title of Work
-### 🛠️ The Approach Tried
+###  The Approach Tried
 1. **Preprocessing:** Took a raw cybersecurity paragraph, removed punctuation, and tokenized it into a vocabulary.
 2. **Dataset Generation:** - **CBOW:** Created context-target pairs using a sliding window of W=4.
    - **Skip-gram:** Created target-context pairs.
