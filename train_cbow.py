@@ -1,14 +1,9 @@
-# =========================================
-# train_cbow.py
-# =========================================
 
 import tensorflow as tf
 import numpy as np
 import ast
 
-# -------------------------------
-# Load Vocabulary
-# -------------------------------
+
 vocab = {}
 id_to_word = {}
 
@@ -22,9 +17,6 @@ with open("vocab.txt", "r") as f:
 vocab_size = len(vocab)
 print("Vocabulary size:", vocab_size)
 
-# -------------------------------
-# Load CBOW Dataset
-# -------------------------------
 contexts = []
 targets = []
 
@@ -36,9 +28,6 @@ with open("cbow_dataset.csv", "r") as f:
         targets.append(int(target_id))
         contexts.append(context_ids)
 
-# -------------------------------
-# One-Hot Encoding
-# -------------------------------
 def one_hot(idx, size):
     v = np.zeros(size)
     v[idx] = 1
@@ -54,9 +43,6 @@ for context, target in zip(contexts, targets):
 X = np.array(X)
 y = np.array(y)
 
-# -------------------------------
-# Training with Learning Rates
-# -------------------------------
 learning_rates = [0.01, 0.001, 0.0001]
 epochs = 100
 embedding_dim = 10
@@ -76,13 +62,12 @@ for lr in learning_rates:
 
     history = model.fit(X, y, epochs=epochs, verbose=0)
 
-    # Save loss
+    
     with open(f"loss_cbow_lr_{lr}.txt", "w") as f:
         f.write("epoch,loss\n")
         for i, loss in enumerate(history.history["loss"], 1):
             f.write(f"{i},{loss}\n")
 
-    # Save embeddings only for best LR
     if lr == 0.001:
         weights = model.layers[0].get_weights()[0]
         with open("embeddings_cbow.csv", "w") as f:
