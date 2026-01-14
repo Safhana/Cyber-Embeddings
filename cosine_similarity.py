@@ -1,6 +1,22 @@
-
 import numpy as np
 import math
+
+
+TOP_K = 5
+
+QUERY_WORDS = [
+    "login",
+    "malware",
+    "authentication",
+    "encryption",
+    "access"
+]
+
+EMBEDDING_FILES = {
+    "cbow": "embeddings_cbow.csv",
+    "skipgram": "embeddings_skipgram.csv"
+}
+
 
 id_to_word = {}
 
@@ -8,16 +24,6 @@ with open("vocab.txt", "r") as f:
     for line in f:
         word, idx, freq = line.strip().split(",")
         id_to_word[int(idx)] = word
-
-embeddings = {}
-
-with open("embeddings_cbow.csv", "r") as f:  
-    next(f)  
-    for line in f:
-        parts = line.strip().split(",")
-        word_id = int(parts[0])
-        vector = np.array(list(map(float, parts[1:])))
-        embeddings[word_id] = vector
 
 
 def cosine_similarity(v1, v2):
@@ -27,14 +33,25 @@ def cosine_similarity(v1, v2):
     return dot / (norm1 * norm2 + 1e-8)
 
 
-def get_top_k(word, k=5):
+def load_embeddings(file_name):
+    embeddings = {}
+    with open(file_name, "r") as f:
+        next(f)  # skip header
+        for line in f:
+            parts = line.strip().split(",")
+            word_id = int(parts[0])
+            vector = np.array(list(map(float, parts[1:])))
+            embeddings[word_id] = vector
+    return embeddings
+
+def get_top_k(word, embeddings, k=TOP_K):
     query_id = None
     for idx, w in id_to_word.items():
         if w == word:
             query_id = idx
             break
 
-    if query_id is None:
+    if query_id is None or query_id not in embeddings:
         return []
 
     query_vec = embeddings[query_id]
@@ -48,21 +65,26 @@ def get_top_k(word, k=5):
     similarities.sort(key=lambda x: x[1], reverse=True)
     return similarities[:k]
 
-query_words = [
-    "login",
-    "malware",
-    "authentication",
-    "encryption",
-    "access"
-]
+for model_name, emb_file in EMBEDDING_FILES.items():
 
+    print(f"\nProcessing {model_name.upper()} embeddings...")
+    embeddings = load_embeddings(emb_file)
 
-with open("similarity_results.txt", "w") as f:
-    for word in query_words:
-        f.write(f"Query word: {word}\n")
-        results = get_top_k(word)
-        for i, (w, s) in enumerate(results, start=1):
-            f.write(f"{i}. {w} ({s:.4f})\n")
-        f.write("\n")
+    output_file = f"similarity_results_{model_name}.txt"
 
-print("Cosine similarity results saved to similarity_results.txt")
+    with open(output_file, "w") as f:
+        f.write(f"Cosine Similarity Results ({model_name.upper()})\n")
+        f.write("=" * 40 + "\n\n")
+
+        for word in QUERY_WORDS:
+            f.write(f"Query word: {word}\n")
+            results = get_top_k(word, embeddings)
+
+            for i, (w, s) in enumerate(results, start=1):
+                f.write(f"{i}. {w} ({s:.4f})\n")
+
+            f.write("\n")
+
+    print(f"Saved results to {output_file}")
+
+print("\nCosine similarity generation complete for BOTH models.")
