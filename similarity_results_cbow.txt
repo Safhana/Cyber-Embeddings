@@ -1,0 +1,38 @@
+Cosine Similarity Results (CBOW)
+========================================
+
+Query word: login
+1. attempts (0.7951)
+2. policies (0.7747)
+3. for (0.6677)
+4. indicators (0.5717)
+5. security (0.5059)
+
+Query word: malware
+1. multifactor (0.6310)
+2. data (0.5813)
+3. account (0.5701)
+4. leastprivilege (0.5272)
+5. for (0.4644)
+
+Query word: authentication
+1. and (0.6758)
+2. standards (0.6246)
+3. patch (0.5703)
+4. abnormal (0.5528)
+5. imaging (0.4966)
+
+Query word: encryption
+1. includes (0.6927)
+2. backup (0.5533)
+3. regular (0.4632)
+4. forensic (0.4408)
+5. vulnerabilities (0.4292)
+
+Query word: access
+1. suspicious (0.3577)
+2. security (0.3061)
+3. encryption (0.2626)
+4. includes (0.2115)
+5. account (0.2104)
+

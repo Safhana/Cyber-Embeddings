@@ -1,0 +1,38 @@
+Cosine Similarity Results (SKIPGRAM)
+========================================
+
+Query word: login
+1. for (0.7824)
+2. attempts (0.7343)
+3. team (0.7159)
+4. data (0.6518)
+5. abnormal (0.6514)
+
+Query word: malware
+1. indicators (0.9136)
+2. abnormal (0.8028)
+3. data (0.7915)
+4. exfiltration (0.7068)
+5. attempts (0.6625)
+
+Query word: authentication
+1. multifactor (0.8509)
+2. containment (0.7151)
+3. account (0.7134)
+4. leastprivilege (0.6562)
+5. indicators (0.6396)
+
+Query word: encryption
+1. backup (0.8537)
+2. integrity (0.7843)
+3. check (0.7217)
+4. close (0.6212)
+5. regular (0.6121)
+
+Query word: access
+1. compliance (0.8871)
+2. with (0.8738)
+3. standards (0.8436)
+4. control (0.8197)
+5. integrity (0.7438)
+
